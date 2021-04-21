@@ -42,7 +42,7 @@ import org.neo4j.ogm.annotation.typeconversion.Convert;
 public class Country extends BaseEntity {
 
   @Convert(NameTranslationConverter.class)
-  private EntityTranslations names = new EntityTranslations();
+  private final EntityTranslations names = new EntityTranslations();
 
   /**
    * Alpha-2 code

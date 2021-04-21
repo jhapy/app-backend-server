@@ -42,7 +42,7 @@ import org.neo4j.ogm.annotation.typeconversion.Convert;
 public class IntermediateRegion extends BaseEntity {
 
   @Convert(NameTranslationConverter.class)
-  private EntityTranslations names = new EntityTranslations();
+  private final EntityTranslations names = new EntityTranslations();
 
   @Relationship
   private SubRegion subRegion;
@@ -50,12 +50,12 @@ public class IntermediateRegion extends BaseEntity {
   @EqualsAndHashCode.Exclude
   @ToString.Exclude
   @Relationship("HAS_REGIONS")
-  private Set<Region> regions = new HashSet<>();
+  private final Set<Region> regions = new HashSet<>();
 
   @EqualsAndHashCode.Exclude
   @ToString.Exclude
   @Relationship("HAS_COUNTRIES")
-  private Set<Country> countries = new HashSet<>();
+  private final Set<Country> countries = new HashSet<>();
 
   @EqualsAndHashCode.Include
   @ToString.Include

@@ -31,8 +31,8 @@ public class AppProperties extends org.jhapy.commons.config.AppProperties {
   @Data
   public static final class Bootstrap {
 
-    private Iso3166 iso3166 = new Iso3166();
-    private CategoryList categoryList = new CategoryList();
+    private final Iso3166 iso3166 = new Iso3166();
+    private final CategoryList categoryList = new CategoryList();
 
     @Data
     public static final class Iso3166 {

@@ -52,9 +52,9 @@ public class BaseUser extends BaseEntity {
 
   @org.springframework.data.annotation.Transient
   @org.neo4j.ogm.annotation.Transient
-  private StoredFile avatar = null;
+  private final StoredFile avatar = null;
 
-  private String avatarId = null;
+  private final String avatarId = null;
 
   @org.springframework.data.annotation.Transient
   @org.neo4j.ogm.annotation.Transient

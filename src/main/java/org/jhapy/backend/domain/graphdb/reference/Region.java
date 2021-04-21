@@ -42,10 +42,10 @@ import org.neo4j.ogm.annotation.typeconversion.Convert;
 public class Region extends BaseEntity {
 
   @Convert(NameTranslationConverter.class)
-  private EntityTranslations names = new EntityTranslations();
+  private final EntityTranslations names = new EntityTranslations();
 
   @EqualsAndHashCode.Exclude
   @ToString.Exclude
   @Relationship("HAS_COUNTRIES")
-  private Set<Country> countries = new HashSet<>();
+  private final Set<Country> countries = new HashSet<>();
 }

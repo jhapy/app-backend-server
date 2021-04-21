@@ -9,7 +9,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.3.7.RELEASE</version>
+    <version>2.3.10.RELEASE</version>
     <relativePath/>
   </parent>
 
@@ -22,27 +22,36 @@
   <name>jHapy Framework - Backend Server Framework</name>
 
   <properties>
-    <java.version>11</java.version>
+    <java.version>15</java.version>
     <maven.version>3.6.0</maven.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+    <!--suppress UnresolvedMavenProperty -->
+    <version.number>${git.commit.time}.${git.commit.id.abbrev}</version.number>
 
     <!-- These remain empty unless the corresponding profile is active -->
     <profile.swagger/>
     <profile.tls/>
 
-    <spring-boot.version>2.3.7.RELEASE</spring-boot.version>
-    <spring-boot-admin.version>2.3.1</spring-boot-admin.version>
+    <spring-boot.version>2.3.10.RELEASE</spring-boot.version>
+    <spring-cloud.version>Hoxton.SR10</spring-cloud.version>
+    <spring-data.version>2021.0.0</spring-data.version>
+
+    <spring-boot-admin.version>2.4.1</spring-boot-admin.version>
+
     <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
     <maven-enforcer-plugin.version>3.0.0-M3</maven-enforcer-plugin.version>
     <maven.required.version>3.6</maven.required.version>
     <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
-    <maven-javadoc-plugin.version>3.1.1</maven-javadoc-plugin.version>
-    <sonar-maven-plugin.version>3.6.1.1688</sonar-maven-plugin.version>
-    <jib-maven-plugin.version>2.6.0</jib-maven-plugin.version>
+    <maven-javadoc-plugin.version>3.2.0</maven-javadoc-plugin.version>
+    <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
+    <maven-resources-plugin.version>3.2.0</maven-resources-plugin.version>
+    <sonar-maven-plugin.version>3.8.0.2131</sonar-maven-plugin.version>
+    <jib-maven-plugin.version>3.0.0</jib-maven-plugin.version>
     <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
-    <lombok.version>1.18.18</lombok.version>
-
+    <dependency-check-maven.version>6.1.5</dependency-check-maven.version>
+    <git-commit-id-plugin.version>4.0.4</git-commit-id-plugin.version>
   </properties>
 
   <dependencies>
@@ -79,6 +88,10 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>pl.project13.maven</groupId>
+        <artifactId>git-commit-id-plugin</artifactId>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -133,12 +146,14 @@
           <version>${git-commit-id-plugin.version}</version>
           <executions>
             <execution>
+              <phase>validate</phase>
               <goals>
                 <goal>revision</goal>
               </goals>
             </execution>
           </executions>
           <configuration>
+            <dateFormat>yyyyMMdd-HHmmss</dateFormat>
             <failOnNoGitDirectory>false</failOnNoGitDirectory>
             <failOnUnableToExtractRepoInfo>false</failOnUnableToExtractRepoInfo>
             <generateGitPropertiesFile>true</generateGitPropertiesFile>
@@ -190,6 +205,29 @@
             </execution>
           </executions>
         </plugin>
+        <plugin>
+          <groupId>org.sonatype.plugins</groupId>
+          <artifactId>nexus-staging-maven-plugin</artifactId>
+          <version>${nexus-staging-maven-plugin.version}</version>
+          <extensions>true</extensions>
+          <configuration>
+            <serverId>ossrh</serverId>
+            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.owasp</groupId>
+          <artifactId>dependency-check-maven</artifactId>
+          <version>${dependency-check-maven.version}</version>
+          <executions>
+            <execution>
+              <goals>
+                <goal>check</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
       </plugins>
     </pluginManagement>
   </build>
@@ -237,4 +275,24 @@
       </snapshots>
     </repository>
   </repositories>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <linksource>true</linksource>
+          <sourcepath>target/delombok</sourcepath>
+        </configuration>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>javadoc</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+    </plugins>
+  </reporting>
 </project>
