@@ -27,7 +27,7 @@ import org.neo4j.ogm.annotation.PostLoad;
 /**
  * This class represent a User.
  *
- * A User can be : - System user (internal) - Admin user (to administer the platform) - Player or
+ * <p>A User can be : - System user (internal) - Admin user (to administer the platform) - Player or
  * Fan - Owner of a Place
  *
  * @author jHapy Lead Dev
@@ -50,18 +50,15 @@ public class BaseUser extends BaseEntity {
 
   private String nickName;
 
-  @org.springframework.data.annotation.Transient
-  @org.neo4j.ogm.annotation.Transient
-  private final StoredFile avatar = null;
+  @org.springframework.data.annotation.Transient @org.neo4j.ogm.annotation.Transient
+  private StoredFile avatar = null;
 
-  private final String avatarId = null;
+  private String avatarId = null;
 
-  @org.springframework.data.annotation.Transient
-  @org.neo4j.ogm.annotation.Transient
+  @org.springframework.data.annotation.Transient @org.neo4j.ogm.annotation.Transient
   private String previousAvatarId = null;
 
-  @org.springframework.data.annotation.Transient
-  @org.neo4j.ogm.annotation.Transient
+  @org.springframework.data.annotation.Transient @org.neo4j.ogm.annotation.Transient
   private Boolean isPreviouslyLoaded = false;
 
   @PostLoad
